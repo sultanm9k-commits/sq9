@@ -192,8 +192,8 @@
             <div class="section-header">
                 <h2 class="section-title">خيارات الجرد</h2>
                 <div class="section-divider"></div>
-                <p class="section-subtitle">قم باختيار نوع الجرد المطلوب لتعبئة البيانات وإرسالها فوراً وبشكل آمن إلى
-                    الإدارات المعنية.</p>
+                <p class="section-subtitle">قم باختيار نوع الجرد المطلوب الخاص بك ويمنع دخول خيار ليس من رتبك اضغط على الخيار  لتعبئة البيانات (النموذج) وإرسالها فوراً وبشكل سلس إلى
+                    المسوؤلين عن الجرد .</p>
             </div>
 
             <!-- Cards Grid -->
@@ -273,9 +273,9 @@
                             <label for="admin-activationCount">✅〢تم・التفعيل (العدد) <span
                                     class="required">*</span></label>
                             <p class="radio-desc" style="color: var(--text-secondary); opacity: 0.8;">يرجى إدخال عدد
-                                التفعيلات (كل 30 تفعيل = 1 نقطة 🏅)</p>
+                                التفعيلات (كل 30 تفعيل = 1 بوينت 🏅)</p>
                             <input type="number" id="admin-activationCount" name="activationCount" min="0" required
-                                placeholder="مثال: 60" value="0">
+                                placeholder="مثال: 30" value="0">
                         </div>
 
                         <!-- Input: Problem Solved -->
@@ -283,7 +283,7 @@
                             <label for="admin-problemSolvedCount">✅〢تم・حل・المشكلة (العدد) <span
                                     class="required">*</span></label>
                             <p class="radio-desc" style="color: var(--text-secondary); opacity: 0.8;">يرجى إدخال عدد
-                                المشاكل المحلولة (كل 50 حل مشكلة = 1 نقطة 🏅)</p>
+                                المشاكل المحلولة  (كل 50 حل مشكلة = 1  بوينت 🏅)</p>
                             <input type="number" id="admin-problemSolvedCount" name="problemSolvedCount" min="0"
                                 required placeholder="مثال: 50" value="0">
                         </div>
@@ -292,15 +292,15 @@
                         <div class="points-display-container" id="admin-pointsDisplay">
                             <div class="points-row">
                                 <div class="points-card">
-                                    <span class="points-label">نقاط التفعيل</span>
+                                    <span class="points-label">بوينتات التفعيل</span>
                                     <span class="points-value" id="points-activation">0 point 🏅</span>
                                 </div>
                                 <div class="points-card">
-                                    <span class="points-label">نقاط حل المشاكل</span>
+                                    <span class="points-label">بوينتات حل المشاكل</span>
                                     <span class="points-value" id="points-problems">0 point 🏅</span>
                                 </div>
                                 <div class="points-card total-points">
-                                    <span class="points-label">مجموع النقاط</span>
+                                    <span class="points-label">مجموع البوينتات</span>
                                     <span class="points-value" id="points-total">0 point 🏅</span>
                                 </div>
                             </div>
@@ -335,16 +335,16 @@
 
                         <div class="form-group">
                             <label for="trans-transportReports">📷〢تقارير・النقل (العدد) <span class="required">*</span></label>
-                            <p class="radio-desc" style="color: var(--text-secondary); opacity: 0.8;">يرجى إدخال عدد التقارير (كل 30 تقرير = 1 نقطة 🏅)</p>
+                            <p class="radio-desc" style="color: var(--text-secondary); opacity: 0.8;">يرجى إدخال عدد التقارير (كل 30 تقرير = 1 بوينت 🏅)</p>
                             <input type="number" id="trans-transportReports" name="transportReports" min="0" required
-                                placeholder="مثال: 60" value="0">
+                                placeholder="مثال: 30" value="0">
                         </div>
 
                         <!-- Points Display Container for Transport -->
                         <div class="points-display-container" id="trans-pointsDisplay">
                             <div class="points-row" style="grid-template-columns: 1fr;">
                                 <div class="points-card total-points">
-                                    <span class="points-label">مجموع نقاط جرد النقل</span>
+                                    <span class="points-label">مجموع بوينتات جرد النقل</span>
                                     <span class="points-value" id="points-transport">0 point 🏅</span>
                                 </div>
                             </div>
@@ -443,7 +443,7 @@
                 </svg>
             </div>
             <h3 class="success-title">تم الإرسال بنجاح!</h3>
-            <p class="success-message">تم تسجيل الجرد وإرساله بأمان إلى خوادم الإدارة في ديسكورد. نشكر مساهمتكم في تنظيم
+            <p class="success-message">تم تسجيل الجرد وإرساله الى مسوؤلين الجرد بنجاح إلى خوادم الادارة في ديسكورد. نشكر مساهمتكم في تنظيم
                 وتطوير مجتمع SQ9.</p>
             <button class="btn btn-primary" id="closeSuccessBtn">موافق</button>
         </div>
