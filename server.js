@@ -11,25 +11,25 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Helper: send rich embed to Discord Webhook
-async function sendToDiscord(webhookUrl, title, fields, color = 13936951) {
+async function sendToDiscord(webhookUrl, title, description, color = 13936951, imageUrl = null) {
   if (!webhookUrl) {
-    console.warn(`[SERVER WARNING] Webhook URL not set for: "${title}". Logging:`, fields);
+    console.warn(`[SERVER WARNING] Webhook URL not set for: "${title}". Logging:`, description);
     return { success: true, mocked: true };
   }
 
-  const formattedFields = fields.map(f => ({
-    name: f.name || 'غير محدد',
-    value: f.value ? String(f.value).trim() || 'لا يوجد' : 'لا يوجد',
-    inline: f.inline !== undefined ? f.inline : false
-  }));
+  const finalImage = imageUrl || process.env.DISCORD_EMBED_IMAGE_URL || null;
 
   const payload = {
     embeds: [{
       title,
+      description,
       color,
-      fields: formattedFields,
       timestamp: new Date().toISOString(),
-      footer: { text: 'البوابة الرسمية لمجتمع SQ9' }
+      footer: {
+        text: 'موقع الجرد الاداري SQ9',
+        icon_url: 'https://sq9-platform.onrender.com/assets/logo.png'
+      },
+      image: finalImage ? { url: finalImage } : undefined
     }]
   };
 
@@ -56,22 +56,36 @@ app.post('/api/reports/admin', async (req, res) => {
     return res.status(400).json({ error: 'يرجى ملء جميع الحقول المطلوبة.' });
   }
 
-  const actCount = parseInt(activationCount) || 0;
-  const probCount = parseInt(problemSolvedCount) || 0;
-  const actPoints = Math.floor(actCount / 30);
+  const actCount  = parseInt(activationCount)    || 0;
+  const probCount = parseInt(problemSolvedCount)  || 0;
+  const actPoints  = Math.floor(actCount  / 30);
   const probPoints = Math.floor(probCount / 50);
   const totalPoints = actPoints + probPoints;
 
-  const fields = [
-    { name: '👤 اسمك', value: userName, inline: true },
-    { name: '🎗️ رتبتك', value: userRank, inline: true },
-    { name: '📊 مجموع النقاط المكتسبة', value: `🏅 **${totalPoints} point**`, inline: true },
-    { name: '✅〢تم・التفعيل (العدد)', value: `🔢 **${actCount}** تفعيل\n🏅 **${actPoints} point** (كل 30 = 1)`, inline: true },
-    { name: '✅〢تم・حل・المشكلة (العدد)', value: `🔢 **${probCount}** حل مشكلة\n🏅 **${probPoints} point** (كل 50 = 1)`, inline: true },
-  ];
+  const description = [
+    `👤 **الاسم :** ${userName}`,
+    ``,
+    `🎗️ **الرتبة :** ${userRank}`,
+    ``,
+    `✅ **تم حل مشكلة ؟ (العدد) :** ${probCount} حل مشكلة`,
+    `🏅 **البوينتات ( الناتج ) :** ${probPoints} point (كل 50 = 1)`,
+    ``,
+    ``,
+    `✅ **تم تفعيل (العدد) :** ${actCount} تفعيل`,
+    `🏅 **البوينتات ( الناتج ) :** ${actPoints} point (كل 30 = 1)`,
+    ``,
+    ``,
+    `📊 **مجموع البوينتات :** ${totalPoints} point`
+  ].join('\n');
 
   try {
-    const result = await sendToDiscord(process.env.DISCORD_ADMIN_WEBHOOK, '📁 جرد إداري جديد - SQ9', fields, 13936951);
+    const result = await sendToDiscord(
+      process.env.DISCORD_ADMIN_WEBHOOK,
+      '📁 جرد إداري جديد - SQ9',
+      description,
+      13936951,
+      process.env.DISCORD_EMBED_IMAGE_URL || null
+    );
     res.json({ success: true, message: 'تم إرسال الجرد الإداري بنجاح.', mocked: result.mocked });
   } catch (err) {
     res.status(500).json({ error: 'فشل إرسال الجرد، يرجى المحاولة لاحقاً.' });
@@ -89,18 +103,28 @@ app.post('/api/reports/transport', async (req, res) => {
   }
 
   const repCount = parseInt(transportReports) || 0;
-  const points = Math.floor(repCount / 30);
+  const points   = Math.floor(repCount / 30);
 
-  const fields = [
-    { name: '👤 اسمك', value: userName, inline: true },
-    { name: '🎗️ رتبتك', value: userRank, inline: true },
-    { name: '📊 مجموع النقاط المكتسبة', value: `🏅 **${points} point**`, inline: true },
-    { name: '📷〢تقارير・النقل (العدد)', value: `🔢 **${repCount}** تقرير\n🏅 **${points} point** (كل 30 = 1)`, inline: true },
-    { name: '✍️ التعهد', value: agreement ? '✅ أقر بتحمل المسؤولية والتعهد في حال تلاعبي لا يتم حسب أي ترقية لي' : '❌ لم يقر', inline: false }
-  ];
+  const description = [
+    `👤 **الاسم :** ${userName}`,
+    ``,
+    `🎗️ **الرتبة :** ${userRank}`,
+    ``,
+    `📷 **تقارير النقل (العدد) :** ${repCount} تقرير`,
+    `🏅 **البوينتات ( الناتج ) :** ${points} point (كل 30 = 1)`,
+    ``,
+    ``,
+    `✍️ **التعهد :** ${agreement ? '✅ أقر بتحمل المسؤولية والتعهد في حال تلاعبي لا يتم حسب أي ترقية لي' : '❌ لم يقر'}`
+  ].join('\n');
 
   try {
-    const result = await sendToDiscord(process.env.DISCORD_TRANSPORT_WEBHOOK, '🚛 جرد مسؤولية النقل - SQ9', fields, 13936951);
+    const result = await sendToDiscord(
+      process.env.DISCORD_TRANSPORT_WEBHOOK,
+      '🚛 جرد مسؤولية النقل - SQ9',
+      description,
+      13936951,
+      process.env.DISCORD_EMBED_IMAGE_URL || null
+    );
     res.json({ success: true, message: 'تم إرسال جرد النقل بنجاح.', mocked: result.mocked });
   } catch (err) {
     res.status(500).json({ error: 'فشل إرسال الجرد، يرجى المحاولة لاحقاً.' });
@@ -117,14 +141,27 @@ app.post('/api/reports/oversight', async (req, res) => {
     return res.status(400).json({ error: 'يرجى ملء الحقول المطلوبة.' });
   }
 
-  const fields = [
-    { name: '👤 اسمك', value: userName, inline: true },
-    { name: '🎗️ الرتبة', value: selectedRank, inline: true },
-    { name: '🛑〢تصوير・الـمحاسبه', value: accountingCount || 'لم يُحدد', inline: false },
-  ];
+  // Dark red color: #8B0000 = 9109504
+  const OVERSIGHT_COLOR = 9109504;
+
+  const description = [
+    `👤 **الاسم :** ${userName}`,
+    ``,
+    ``,
+    `🎗️ **الرتبة :** ${selectedRank}`,
+    ``,
+    ``,
+    `🛑 **تصوير المحاسبة (العدد) :** ${accountingCount || 'لم يُحدد'}`
+  ].join('\n');
 
   try {
-    const result = await sendToDiscord(process.env.DISCORD_OVERSIGHT_WEBHOOK, '🔍 جرد رقابة وتفتيش جديد - SQ9', fields, 13936951);
+    const result = await sendToDiscord(
+      process.env.DISCORD_OVERSIGHT_WEBHOOK,
+      '🔍 جرد رقابة وتفتيش جديد - SQ9',
+      description,
+      OVERSIGHT_COLOR,
+      process.env.DISCORD_OVERSIGHT_IMAGE_URL || process.env.DISCORD_EMBED_IMAGE_URL || null
+    );
     res.json({ success: true, message: 'تم إرسال جرد الرقابة والتفتيش بنجاح.', mocked: result.mocked });
   } catch (err) {
     res.status(500).json({ error: 'فشل إرسال الجرد، يرجى المحاولة لاحقاً.' });
