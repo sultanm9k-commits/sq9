@@ -68,10 +68,12 @@ app.post('/api/reports/admin', async (req, res) => {
     `🎗️ **الرتبة :** ${userRank}`,
     ``,
     `✅ **تم حل مشكلة ؟ (العدد) :** ${probCount} حل مشكلة`,
+
     `🏅 **البوينتات ( الناتج ) :** ${probPoints} point (كل 50 = 1)`,
     ``,
     ``,
     `✅ **تم تفعيل (العدد) :** ${actCount} تفعيل`,
+
     `🏅 **البوينتات ( الناتج ) :** ${actPoints} point (كل 30 = 1)`,
     ``,
     ``,
@@ -111,6 +113,7 @@ app.post('/api/reports/transport', async (req, res) => {
     `🎗️ **الرتبة :** ${userRank}`,
     ``,
     `📷 **تقارير النقل (العدد) :** ${repCount} تقرير`,
+    
     `🏅 **البوينتات ( الناتج ) :** ${points} point (كل 30 = 1)`,
     ``,
     ``,
