@@ -29,7 +29,7 @@ async function sendToDiscord(webhookUrl, title, fields, color = 13936951) {
       color,
       fields: formattedFields,
       timestamp: new Date().toISOString(),
-      footer: { text: 'البوابة الرسمية لمجتمع SQ9 • sq9.sa' }
+      footer: { text: 'البوابة الرسمية لمجتمع SQ9' }
     }]
   };
 
@@ -88,10 +88,14 @@ app.post('/api/reports/transport', async (req, res) => {
     return res.status(400).json({ error: 'يرجى ملء الحقول الإلزامية والموافقة على التعهد.' });
   }
 
+  const repCount = parseInt(transportReports) || 0;
+  const points = Math.floor(repCount / 30);
+
   const fields = [
     { name: '👤 اسمك', value: userName, inline: true },
     { name: '🎗️ رتبتك', value: userRank, inline: true },
-    { name: '📷〢تقارير・النقل', value: transportReports || 'لم يُحدد', inline: false },
+    { name: '📊 مجموع النقاط المكتسبة', value: `🏅 **${points} point**`, inline: true },
+    { name: '📷〢تقارير・النقل (العدد)', value: `🔢 **${repCount}** تقرير\n🏅 **${points} point** (كل 30 = 1)`, inline: true },
     { name: '✍️ التعهد', value: agreement ? '✅ أقر بتحمل المسؤولية والتعهد في حال تلاعبي لا يتم حسب أي ترقية لي' : '❌ لم يقر', inline: false }
   ];
 

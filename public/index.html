@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الجرد الإداري SQ9 | sq9.sa</title>
+    <title>الجرد الإداري SQ9</title>
     <meta name="description" content="موقع الجرد الإداري الرسمي لـ SQ9 — نظام الجرد الإداري نظام حديث.">
 
     <!-- Open Graph / Discord / WhatsApp Preview -->
@@ -31,9 +31,104 @@
     <link rel="icon" type="image/png" href="assets/logo.png">
     <link rel="apple-touch-icon" href="assets/logo.png">
     <link rel="stylesheet" href="styles/main.css">
+    <style>
+        /* Premium Preloader Styles */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #050506;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #preloader.fade-out {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .preloader-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+            text-align: center;
+        }
+
+        .preloader-logo-wrapper {
+            position: relative;
+            margin-bottom: 8px;
+            animation: pulseGlowLogo 2.5s infinite ease-in-out;
+        }
+
+        .preloader-logo {
+            height: 90px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.4));
+        }
+
+        .preloader-spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid rgba(212, 175, 55, 0.1);
+            border-top: 3px solid #d4af37;
+            border-radius: 50%;
+            animation: preloaderSpin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        }
+
+        .preloader-text {
+            font-family: 'Cairo', sans-serif;
+            color: #f3f4f6;
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-top: 8px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            animation: preloaderPulseText 2s infinite ease-in-out;
+        }
+
+        @keyframes preloaderSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulseGlowLogo {
+            0%, 100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.3));
+            }
+            50% {
+                transform: scale(1.05);
+                filter: drop-shadow(0 0 25px rgba(212, 175, 55, 0.6));
+            }
+        }
+
+        @keyframes preloaderPulseText {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+    </style>
 </head>
 
 <body>
+
+    <!-- Preloader / Loading Screen -->
+    <div id="preloader">
+        <div class="preloader-content">
+            <div class="preloader-logo-wrapper">
+                <img src="assets/logo.png" alt="SQ9 Logo" class="preloader-logo">
+            </div>
+            <div class="preloader-spinner"></div>
+            <h2 class="preloader-text">انتظر قليلاً...</h2>
+        </div>
+    </div>
 
     <div class="glow-bg glow-1"></div>
     <div class="glow-bg glow-2"></div>
@@ -239,9 +334,20 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="trans-transportReports">📷〢تقارير・النقل ؟</label>
-                            <input type="text" id="trans-transportReports" name="transportReports"
-                                placeholder="كم وصلت تقرير">
+                            <label for="trans-transportReports">📷〢تقارير・النقل (العدد) <span class="required">*</span></label>
+                            <p class="radio-desc" style="color: var(--text-secondary); opacity: 0.8;">يرجى إدخال عدد التقارير (كل 30 تقرير = 1 نقطة 🏅)</p>
+                            <input type="number" id="trans-transportReports" name="transportReports" min="0" required
+                                placeholder="مثال: 60" value="0">
+                        </div>
+
+                        <!-- Points Display Container for Transport -->
+                        <div class="points-display-container" id="trans-pointsDisplay">
+                            <div class="points-row" style="grid-template-columns: 1fr;">
+                                <div class="points-card total-points">
+                                    <span class="points-label">مجموع نقاط جرد النقل</span>
+                                    <span class="points-value" id="points-transport">0 point 🏅</span>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-group checkbox-group">
@@ -362,6 +468,19 @@
     </footer>
 
     <script src="scripts/form-handler.js"></script>
+    <script>
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            if (preloader) {
+                setTimeout(() => {
+                    preloader.classList.add('fade-out');
+                    setTimeout(() => {
+                        preloader.remove();
+                    }, 600);
+                }, 1500);
+            }
+        });
+    </script>
 </body>
 
 </html>

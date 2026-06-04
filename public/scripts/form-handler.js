@@ -170,13 +170,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ─── Form 2: جرد مسؤولية النقل ──────────────────────
     const transportForm = document.getElementById('transportReportForm');
+    const transReportsInput = document.getElementById('trans-transportReports');
+    const transPointsSpan = document.getElementById('points-transport');
+
+    function calculateTransportPoints() {
+        if (!transReportsInput) return;
+        const reports = parseInt(transReportsInput.value) || 0;
+        const points = Math.floor(reports / 30);
+        if (transPointsSpan) transPointsSpan.textContent = `${points} point 🏅`;
+    }
+
+    if (transReportsInput) {
+        transReportsInput.addEventListener('input', calculateTransportPoints);
+        calculateTransportPoints();
+    }
+
     if (transportForm) {
         transportForm.addEventListener('submit', e => {
             e.preventDefault();
             submitReport('/api/reports/transport', {
                 userName:         document.getElementById('trans-userName').value,
                 userRank:         document.getElementById('trans-userRank').value,
-                transportReports: document.getElementById('trans-transportReports').value,
+                transportReports: parseInt(transReportsInput.value) || 0,
                 agreement:        document.getElementById('trans-agreement').checked,
             }, transportForm);
         });
