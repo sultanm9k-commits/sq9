@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الجرد الإداري SQ9 | sq9.sa</title>
+    <meta name="description" content="البوابة الرسمية لإدارة الجرود الإدارية والنقل والرقابة لمجتمع SQ9.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&family=Outfit:wght@300;400;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+
+<body>
+
+    <div class="glow-bg glow-1"></div>
+    <div class="glow-bg glow-2"></div>
+
+    <!-- Header -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="#" class="brand-logo" id="homeLogoBtn">
+                <img src="assets/logo.png" alt="SQ9 Logo" class="nav-logo-img"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                <span class="logo-fallback"><span class="logo-gold">SQ9</span><span class="logo-dot">.</span><span
+                        class="logo-domain">sa</span></span>
+            </a>
+
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+
+            <nav class="nav-menu" id="navMenu">
+                <a href="#" class="nav-link active" id="navHome" data-scroll="hero">الرئيسية</a>
+                <a href="#reporting-hub" class="nav-link" data-scroll="reporting-hub">مركز الجرود</a>
+                <a href="#police-mod" class="nav-link" data-scroll="police-mod">مود الشرطة</a>
+                <a href="https://discord.gg/SQ9" target="_blank" class="nav-btn discord-btn">
+                    <svg class="btn-icon" viewBox="0 0 127.14 96.36">
+                        <path fill="currentColor"
+                            d="M107.7,8.07A105.15,105.15,0,0,0,77.26,0a77.19,77.19,0,0,0-3.3,6.83A96.67,96.67,0,0,0,53.22,6.83,77.19,77.19,0,0,0,49.88,0,105.15,105.15,0,0,0,19.44,8.07C3.66,31.58-1.86,54.65,1,77.53A105.73,105.73,0,0,0,32,96.36a77.7,77.7,0,0,0,6.63-10.85,68.43,68.43,0,0,1-10.43-5c.87-.64,1.71-1.32,2.51-2a75.76,75.76,0,0,0,72.77,0c.8.7,1.64,1.38,2.51,2a68.43,68.43,0,0,1-10.43,5,77.7,77.7,0,0,0,6.63,10.85,105.73,105.73,0,0,0,31.58-18.83C129.07,48.12,122.94,25.29,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53S36.18,40.36,42.45,40.36,53.88,46,53.88,53,48.72,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.24,60,73.24,53S78.41,40.36,84.69,40.36,96.12,46,96.12,53,91,65.69,84.69,65.69Z" />
+                    </svg>
+                    <span>ديسكورد SQ9</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ═══════════════════════════════════════
+         HERO SECTION
+    ═══════════════════════════════════════ -->
+    <section class="hero-section" id="hero">
+        <div class="hero-container">
+            <div class="hero-badge">الموقع الرسمي المعتمد</div>
+            <h1 class="hero-title">الجرد <span class="text-gold">SQ9</span> الاداري</h1>
+            <p class="hero-subtitle">المنصة التنظيمية الرقمية الرسمية لإدارة الجرود والرقابة وخدمات مود الشرطة. بيئة
+                تفاعلية تعيد تعريف جودة لعب الأدوار.</p>
+            <div class="hero-cta">
+                <button class="btn btn-primary btn-glow" id="startNowBtn">
+                    <span>ابدأ الآن</span>
+                    <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                </button>
+                <a href="#police-mod" class="btn btn-secondary">
+                    <span>مود الشرطة | Police Mod</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         REPORTING HUB
+    ═══════════════════════════════════════ -->
+    <section class="reporting-section" id="reporting-hub">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">الجرد</h2>
+                <div class="section-divider"></div>
+                <p class="section-subtitle">قم باختيار نوع الجرد المطلوب لتعبئة البيانات وإرسالها فوراً وبشكل آمن إلى
+                    الإدارات المعنية.</p>
+            </div>
+
+            <!-- Cards Grid -->
+            <div class="cards-grid">
+                <!-- Card 1: Admin -->
+                <div class="report-card" id="card-admin" data-form="admin-form-container">
+                    <div class="card-icon-wrapper">
+                        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-.778.099-1.533.284-2.253" />
+                        </svg>
+                    </div>
+                    <h3 class="card-title">الجرد الإداري</h3>
+                    <p class="card-desc">يسمح للجميع باستخدام وتقديم الجرد يمنع التلاعب خلاف ذلك فصل فوري</p>
+                    <span class="card-action">تعبئة الجرد ←</span>
+                </div>
+
+                <!-- Card 2: Transport -->
+                <div class="report-card" id="card-transport" data-form="transport-form-container">
+                    <div class="card-icon-wrapper">
+                        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124l-.317-5.077a1.875 1.875 0 00-1.871-1.759H18a1.875 1.875 0 00-1.875 1.875V16.5m-3.75 2.25H8.25m2.25-13.5h3.75m-3.75 3h3.75m-3.75 3h3.75M6.75 20.25h10.5" />
+                        </svg>
+                    </div>
+                    <h3 class="card-title">جرد مسؤولية النقل</h3>
+                    <p class="card-desc">جرد مسؤولية النقل خاص بمسؤولين النقل ومنسوبيها يمنع دخول الجرد لمن غير
+                        المسؤولين خلاف ذلك فصل فوري</p>
+                    <span class="card-action">تعبئة الجرد ←</span>
+                </div>
+
+                <!-- Card 3: Oversight -->
+                <div class="report-card" id="card-oversight" data-form="oversight-form-container">
+                    <div class="card-icon-wrapper">
+                        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+                        </svg>
+                    </div>
+                    <h3 class="card-title">جرد الرقابة والتفتيش</h3>
+                    <p class="card-desc">جرد خاص جداً بالرقابة يمنع تقديمك أو دخولك للرابط، يتم فصلك فوراً من لا يملك
+                        فقط الرقابة أو مساعد رقابة خلاف ذلك فصل وتوصل محظور</p>
+                    <span class="card-action">تعبئة الجرد ←</span>
+                </div>
+            </div>
+
+            <!-- Forms Wrapper -->
+            <div class="forms-wrapper" id="forms-section" style="display:none;">
+                <div class="form-tabs-nav">
+                    <button class="tab-btn" id="tab-admin" data-target="admin-form-container">الجرد الإداري</button>
+                    <button class="tab-btn" id="tab-transport" data-target="transport-form-container">جرد مسؤولية
+                        النقل</button>
+                    <button class="tab-btn" id="tab-oversight" data-target="oversight-form-container">جرد الرقابة
+                        والتفتيش</button>
+                </div>
+
+                <!-- ════════ Form 1: الجرد الإداري ════════ -->
+                <div class="form-container" id="admin-form-container">
+                    <div class="form-header">
+                        <h3>نموذج التقديم: الجرد الإداري</h3>
+                        <p>يرجى إدخال البيانات بدقة. التلاعب يؤدي إلى الفصل الفوري.</p>
+                    </div>
+                    <form id="adminReportForm" class="sq9-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="admin-userName">اسمك <span class="required">*</span></label>
+                                <input type="text" id="admin-userName" name="userName" required placeholder="اسمك">
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-userRank">رتبتك <span class="required">*</span></label>
+                                <input type="text" id="admin-userRank" name="userRank" required placeholder="رتبتك">
+                            </div>
+                        </div>
+
+                        <!-- Input: Activation -->
+                        <div class="form-group">
+                            <label for="admin-activationCount">✅〢تم・التفعيل (العدد) <span class="required">*</span></label>
+                            <p class="radio-desc" style="color: var(--text-secondary); opacity: 0.8;">يرجى إدخال عدد التفعيلات (كل 30 تفعيل = 1 نقطة 🏅)</p>
+                            <input type="number" id="admin-activationCount" name="activationCount" min="0" required placeholder="مثال: 60" value="0">
+                        </div>
+
+                        <!-- Input: Problem Solved -->
+                        <div class="form-group">
+                            <label for="admin-problemSolvedCount">✅〢تم・حل・المشكلة (العدد) <span class="required">*</span></label>
+                            <p class="radio-desc" style="color: var(--text-secondary); opacity: 0.8;">يرجى إدخال عدد المشاكل المحلولة (كل 50 حل مشكلة = 1 نقطة 🏅)</p>
+                            <input type="number" id="admin-problemSolvedCount" name="problemSolvedCount" min="0" required placeholder="مثال: 50" value="0">
+                        </div>
+
+                        <!-- Points Display Container -->
+                        <div class="points-display-container" id="admin-pointsDisplay">
+                            <div class="points-row">
+                                <div class="points-card">
+                                    <span class="points-label">نقاط التفعيل</span>
+                                    <span class="points-value" id="points-activation">0 point 🏅</span>
+                                </div>
+                                <div class="points-card">
+                                    <span class="points-label">نقاط حل المشاكل</span>
+                                    <span class="points-value" id="points-problems">0 point 🏅</span>
+                                </div>
+                                <div class="points-card total-points">
+                                    <span class="points-label">مجموع النقاط</span>
+                                    <span class="points-value" id="points-total">0 point 🏅</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary btn-submit">
+                                <span>إرسال الجرد الإداري</span>
+                                <div class="loader" style="display:none;"></div>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- ════════ Form 2: جرد مسؤولية النقل ════════ -->
+                <div class="form-container" id="transport-form-container" style="display:none;">
+                    <div class="form-header">
+                        <h3>نموذج التقديم: جرد مسؤولية النقل</h3>
+                        <p>خاص بمسؤولي النقل ومنسوبيها فقط.</p>
+                    </div>
+                    <form id="transportReportForm" class="sq9-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="trans-userName">اسمك <span class="required">*</span></label>
+                                <input type="text" id="trans-userName" name="userName" required placeholder="الاسم">
+                            </div>
+                            <div class="form-group">
+                                <label for="trans-userRank">رتبتك <span class="required">*</span></label>
+                                <input type="text" id="trans-userRank" name="userRank" required placeholder="الرتبة">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="trans-transportReports">📷〢تقارير・النقل ؟</label>
+                            <input type="text" id="trans-transportReports" name="transportReports"
+                                placeholder="كم وصلت تقرير">
+                        </div>
+
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="trans-agreement" name="agreement" required>
+                            <label for="trans-agreement">أقم بتحمل المسؤولية والتعهد في حال تلاعبي لا يتم حسب أي ترقية
+                                لي <span class="required">*</span></label>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary btn-submit">
+                                <span>إرسال جرد النقل</span>
+                                <div class="loader" style="display:none;"></div>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- ════════ Form 3: جرد الرقابة والتفتيش ════════ -->
+                <div class="form-container" id="oversight-form-container" style="display:none;">
+                    <div class="form-header">
+                        <h3>نموذج التقديم: جرد الرقابة والتفتيش</h3>
+                        <p>حصري بالرقابة وأعضاؤها فقط. الدخول غير المصرح يؤدي للفصل والحظر.</p>
+                    </div>
+                    <form id="oversightReportForm" class="sq9-form">
+                        <div class="form-group">
+                            <label for="over-userName">اسمك <span class="required">*</span></label>
+                            <input type="text" id="over-userName" name="userName" required placeholder="اسمك">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="over-selectedRank">اختر رتبتك <span class="required">*</span></label>
+                            <select id="over-selectedRank" name="selectedRank" required>
+                                <option value="" disabled selected>اختر رتبتك...</option>
+                                <option value="乡 | الـرقـابـة والـتـفـتـيــش 🔱⭐" class="rank-red-dark">乡 | الـرقـابـة
+                                    والـتـفـتـيــش 🔱⭐</option>
+                                <option value="乡 | مساعد الـرقـابـة والـتـفـتـيــش 🔱⭐" class="rank-blue-dark">乡 | مساعد
+                                    الـرقـابـة والـتـفـتـيــش 🔱⭐</option>
+                                <option value="𝑺𝑸𝟗 مسؤول الشكاوي" class="rank-red-mid">𝑺𝑸𝟗 مسؤول الشكاوي</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="over-accountingCount">🛑〢تصوير・الـمحاسبه ؟</label>
+                            <input type="text" id="over-accountingCount" name="accountingCount"
+                                placeholder="كم محاسبة نزلت">
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary btn-submit">
+                                <span>إرسال جرد الرقابة</span>
+                                <div class="loader" style="display:none;"></div>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         POLICE MOD SECTION
+    ═══════════════════════════════════════ -->
+    <section class="police-mod-section" id="police-mod">
+        <div class="section-container">
+            <div class="mod-showcase">
+                <div class="mod-content">
+                    <div class="mod-badge">تحديثات حصرية</div>
+                    <h2 class="mod-title">مود الشرطة SQ9 | Police Mod</h2>
+                    <p class="mod-text">حياكم الله في مجتمع 𝐒𝐐𝟗 🚔.. المكان اللي يجمع عشاق الرول بلاي والواقعية. إذا
+                        تدور على تكتيك عالي، رفقة طيبة، وأقوى مود شرطة، مكانك هنا. انضم لنا وورنا احترافك</p>
+                    <ul class="mod-features">
+                        <li><span class="feature-icon">✓</span><span>حصريات يومية ونادرة</span></li>
+                        <li><span class="feature-icon">✓</span><span>سيناريوهات واقعية وعساكر ومواطنين</span></li>
+                        <li><span class="feature-icon">✓</span><span>نظام مود شرطة متصدر على السيرفرات الأخرى</span>
+                        </li>
+                    </ul>
+                    <div class="mod-actions">
+                        <a href="https://discord.gg/SQ9" target="_blank" class="btn btn-primary btn-glow">
+                            <span>دخول الديسكورد</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="mod-visual">
+                    <div class="visual-card">
+                        <div class="visual-header">
+                            <span class="visual-dot dot-red"></span>
+                            <span class="visual-dot dot-yellow"></span>
+                            <span class="visual-dot dot-green"></span>
+                            <span class="visual-title">SQ9 POLICE SYSTEM</span>
+                        </div>
+                        <div class="visual-body">
+                            <div class="radar-ping"></div>
+                            <div class="visual-code">
+                                <span class="code-line"><span class="c-gold">init_system</span>() {</span>
+                                <span class="code-line indent">status = <span
+                                        class="c-green">"OPERATIONAL"</span>;</span>
+                                <span class="code-line indent">sync_discord_logs(<span
+                                        class="c-gold">"sq9.sa"</span>);</span>
+                                <span class="code-line">}</span>
+                                <span class="code-line"><span class="c-gold">dispatch_patrol</span>(unit_id) {</span>
+                                <span class="code-line indent">active_patrols.push(unit_id);</span>
+                                <span class="code-line indent">trigger_alert(<span class="c-red">"🚨 CODE 3 - FAST
+                                        RESPONSE"</span>);</span>
+                                <span class="code-line">}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Overlay -->
+    <div class="success-overlay" id="successOverlay">
+        <div class="success-card">
+            <div class="success-icon-wrapper">
+                <svg class="success-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </div>
+            <h3 class="success-title">تم الإرسال بنجاح!</h3>
+            <p class="success-message">تم تسجيل الجرد وإرساله بأمان إلى خوادم الإدارة في ديسكورد. نشكر مساهمتكم في تنظيم
+                وتطوير مجتمع SQ9.</p>
+            <button class="btn btn-primary" id="closeSuccessBtn">موافق</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <img src="assets/logo.png" alt="SQ9" class="footer-logo-img"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                <span class="logo-fallback"><span class="logo-gold">SQ9</span><span class="logo-dot">.</span><span
+                        class="logo-domain">sa</span></span>
+            </div>
+            <p class="footer-copy">© 2026 مجتمع SQ9. محفوظة. تم التطوير كمنصة تنظيمية رسمية تحت النطاق
+                sq9.sa.</p>
+            <div class="footer-links">
+                <a href="#hero">الرئيسية</a>
+                <a href="#reporting-hub">مركز الجرود</a>
+                <a href="#police-mod">مود الشرطة</a>
+                <a href="https://discord.gg/SQ9" target="_blank">الدعم الفني</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="scripts/form-handler.js"></script>
+</body>
+
+</html>
