@@ -1,5 +1,5 @@
 {
-  "name": "sq9-platform",
+  "name": "sq9",
   "version": "1.0.0",
   "description": "Official Web Platform for SQ9 Roleplay Community",
   "main": "server.js",
