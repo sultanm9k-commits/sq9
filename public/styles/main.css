@@ -723,6 +723,30 @@ body {
     font-size: 18px;
 }
 
+.mod-checklist-container {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    transition: var(--transition-smooth);
+}
+
+.mod-checklist-container:hover {
+    border-color: rgba(212, 175, 55, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px var(--gold-glow-light);
+    transform: translateY(-4px);
+}
+
+.mod-checklist-container .mod-features {
+    margin-bottom: 0;
+}
+
 .visual-card {
     background: rgba(10, 10, 12, 0.85);
     border: 1px solid rgba(255, 255, 255, 0.05);

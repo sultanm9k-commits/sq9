@@ -5,13 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الجرد الإداري SQ9 | sq9.sa</title>
-    <meta name="description" content="البوابة الرسمية لإدارة الجرود الإدارية والنقل والرقابة لمجتمع SQ9.">
+    <meta name="description" content="موقع الجرد الإداري الرسمي لـ SQ9 — نظام الجرد الإداري نظام حديث.">
 
     <!-- Open Graph / Discord / WhatsApp Preview -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://sq9.sa">
-    <meta property="og:title" content="SQ9 | منصة الجرد الإداري الرسمية">
-    <meta property="og:description" content="البوابة التنظيمية الرسمية لمجتمع SQ9 — جرد إداري، نقل، ورقابة. انضم الآن عبر ديسكورد SQ9.">
+    <meta property="og:title" content="SQ9 | موقع الجرد الإداري الرسمي">
+    <meta property="og:description"
+        content="نظام الجرد الإداري نظام حديث لـ SQ9 — جرد إداري، نقل، ورقابة. ابدأ الجرد الآن عن طريق الموقع.">
     <meta property="og:image" content="https://sq9-platform.onrender.com/assets/logo.png">
     <meta property="og:image:width" content="1024">
     <meta property="og:image:height" content="1024">
@@ -19,8 +20,8 @@
     <meta property="og:site_name" content="SQ9 Platform">
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="SQ9 | منصة الجرد الإداري الرسمية">
-    <meta name="twitter:description" content="البوابة التنظيمية الرسمية لمجتمع SQ9 — جرد إداري، نقل، ورقابة.">
+    <meta name="twitter:title" content="SQ9 | موقع الجرد الإداري الرسمي">
+    <meta name="twitter:description" content="نظام الجرد الإداري نظام حديث لـ SQ9 — جرد إداري، نقل، ورقابة.">
     <meta name="twitter:image" content="https://sq9-platform.onrender.com/assets/logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -53,7 +54,7 @@
             <nav class="nav-menu" id="navMenu">
                 <a href="#" class="nav-link active" id="navHome" data-scroll="hero">الرئيسية</a>
                 <a href="#reporting-hub" class="nav-link" data-scroll="reporting-hub">خيارات الجرد</a>
-                <a href="#police-mod" class="nav-link" data-scroll="police-mod">مود الشرطة</a>
+                <a href="#police-mod" class="nav-link" data-scroll="police-mod">عن السيرفر</a>
                 <a href="https://discord.gg/SQ9" target="_blank" class="nav-btn discord-btn">
                     <svg class="btn-icon" viewBox="0 0 127.14 96.36">
                         <path fill="currentColor"
@@ -70,10 +71,9 @@
     ═══════════════════════════════════════ -->
     <section class="hero-section" id="hero">
         <div class="hero-container">
-            <div class="hero-badge">الموقع الرسمي المعتمد</div>
+            <div class="hero-badge">موقع الجرد </div>
             <h1 class="hero-title">الجرد <span class="text-gold">SQ9</span> الاداري</h1>
-            <p class="hero-subtitle">المنصة التنظيمية الرقمية الرسمية لإدارة الجرود والرقابة وخدمات مود الشرطة. بيئة
-                تفاعلية تعيد تعريف جودة لعب الأدوار.</p>
+            <p class="hero-subtitle">نظام الجرد الإداري الحديث لـ SQ9 لإدارة الجرد والرقابة. ابدأ الجرد الآن مباشرةً عن طريق الموقع.</p>
             <div class="hero-cta">
                 <button class="btn btn-primary btn-glow" id="startNowBtn">
                     <span>ابدأ الآن</span>
@@ -83,7 +83,7 @@
                     </svg>
                 </button>
                 <a href="#police-mod" class="btn btn-secondary">
-                    <span>مود الشرطة | Police Mod</span>
+                    <span>عن السيرفر | About SQ9</span>
                 </a>
             </div>
         </div>
@@ -175,16 +175,22 @@
 
                         <!-- Input: Activation -->
                         <div class="form-group">
-                            <label for="admin-activationCount">✅〢تم・التفعيل (العدد) <span class="required">*</span></label>
-                            <p class="radio-desc" style="color: var(--text-secondary); opacity: 0.8;">يرجى إدخال عدد التفعيلات (كل 30 تفعيل = 1 نقطة 🏅)</p>
-                            <input type="number" id="admin-activationCount" name="activationCount" min="0" required placeholder="مثال: 60" value="0">
+                            <label for="admin-activationCount">✅〢تم・التفعيل (العدد) <span
+                                    class="required">*</span></label>
+                            <p class="radio-desc" style="color: var(--text-secondary); opacity: 0.8;">يرجى إدخال عدد
+                                التفعيلات (كل 30 تفعيل = 1 نقطة 🏅)</p>
+                            <input type="number" id="admin-activationCount" name="activationCount" min="0" required
+                                placeholder="مثال: 60" value="0">
                         </div>
 
                         <!-- Input: Problem Solved -->
                         <div class="form-group">
-                            <label for="admin-problemSolvedCount">✅〢تم・حل・المشكلة (العدد) <span class="required">*</span></label>
-                            <p class="radio-desc" style="color: var(--text-secondary); opacity: 0.8;">يرجى إدخال عدد المشاكل المحلولة (كل 50 حل مشكلة = 1 نقطة 🏅)</p>
-                            <input type="number" id="admin-problemSolvedCount" name="problemSolvedCount" min="0" required placeholder="مثال: 50" value="0">
+                            <label for="admin-problemSolvedCount">✅〢تم・حل・المشكلة (العدد) <span
+                                    class="required">*</span></label>
+                            <p class="radio-desc" style="color: var(--text-secondary); opacity: 0.8;">يرجى إدخال عدد
+                                المشاكل المحلولة (كل 50 حل مشكلة = 1 نقطة 🏅)</p>
+                            <input type="number" id="admin-problemSolvedCount" name="problemSolvedCount" min="0"
+                                required placeholder="مثال: 50" value="0">
                         </div>
 
                         <!-- Points Display Container -->
@@ -302,47 +308,21 @@
         <div class="section-container">
             <div class="mod-showcase">
                 <div class="mod-content">
-                    <div class="mod-badge">تحديثات حصرية</div>
-                    <h2 class="mod-title">مود الشرطة SQ9 | Police Mod</h2>
-                    <p class="mod-text">حياكم الله في مجتمع 𝐒𝐐𝟗 🚔.. المكان اللي يجمع عشاق الرول بلاي والواقعية. إذا
-                        تدور على تكتيك عالي، رفقة طيبة، وأقوى مود شرطة، مكانك هنا. انضم لنا وورنا احترافك</p>
-                    <ul class="mod-features">
-                        <li><span class="feature-icon">✓</span><span>حصريات يومية ونادرة</span></li>
-                        <li><span class="feature-icon">✓</span><span>سيناريوهات واقعية وعساكر ومواطنين</span></li>
-                        <li><span class="feature-icon">✓</span><span>نظام مود شرطة متصدر على السيرفرات الأخرى</span>
-                        </li>
-                    </ul>
+                    <div class="mod-badge">تعريف بالمنصة</div>
+                    <h2 class="mod-title">ما هو سيرفر SQ9؟</h2>
+                    <p class="mod-text">حياكم الله في مجتمع 𝐒𝐐𝟗 🚔.. المكان الذي يجمع عشاق الرول بلاي والواقعية. إذا كنت تبحث عن تكتيك عالي، رفقة طيبة، وأقوى بيئة لعب أدوار، مكانك هنا. انضم لنا واستمتع بتجربة فريدة من نوعها.</p>
                     <div class="mod-actions">
                         <a href="https://discord.gg/SQ9" target="_blank" class="btn btn-primary btn-glow">
                             <span>دخول الديسكورد</span>
                         </a>
                     </div>
                 </div>
-                <div class="mod-visual">
-                    <div class="visual-card">
-                        <div class="visual-header">
-                            <span class="visual-dot dot-red"></span>
-                            <span class="visual-dot dot-yellow"></span>
-                            <span class="visual-dot dot-green"></span>
-                            <span class="visual-title">SQ9 POLICE SYSTEM</span>
-                        </div>
-                        <div class="visual-body">
-                            <div class="radar-ping"></div>
-                            <div class="visual-code">
-                                <span class="code-line"><span class="c-gold">init_system</span>() {</span>
-                                <span class="code-line indent">status = <span
-                                        class="c-green">"OPERATIONAL"</span>;</span>
-                                <span class="code-line indent">sync_discord_logs(<span
-                                        class="c-gold">"sq9.sa"</span>);</span>
-                                <span class="code-line">}</span>
-                                <span class="code-line"><span class="c-gold">dispatch_patrol</span>(unit_id) {</span>
-                                <span class="code-line indent">active_patrols.push(unit_id);</span>
-                                <span class="code-line indent">trigger_alert(<span class="c-red">"🚨 CODE 3 - FAST
-                                        RESPONSE"</span>);</span>
-                                <span class="code-line">}</span>
-                            </div>
-                        </div>
-                    </div>
+                <div class="mod-checklist-container">
+                    <ul class="mod-features">
+                        <li><span class="feature-icon">✓</span><span>حصريات يومية ونادرة</span></li>
+                        <li><span class="feature-icon">✓</span><span>سيناريوهات واقعية وعساكر ومواطنين</span></li>
+                        <li><span class="feature-icon">✓</span><span>نظام مود شرطة متصدر على السيرفرات الأخرى</span></li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -375,7 +355,7 @@
             <div class="footer-links">
                 <a href="#hero">الرئيسية</a>
                 <a href="#reporting-hub">خيارات الجرد</a>
-                <a href="#police-mod">مود الشرطة</a>
+                <a href="#police-mod">عن السيرفر</a>
                 <a href="https://discord.gg/SQ9" target="_blank">الدعم الفني</a>
             </div>
         </div>
