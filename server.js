@@ -81,7 +81,7 @@ app.post('/api/reports/admin', async (req, res) => {
   try {
     const result = await sendToDiscord(
       process.env.DISCORD_ADMIN_WEBHOOK,
-      '📁 جرد إداري جديد - SQ9',
+      'جرد الادارة | SQ9 📨',
       description,
       13936951,
       process.env.DISCORD_EMBED_IMAGE_URL || null
@@ -120,7 +120,7 @@ app.post('/api/reports/transport', async (req, res) => {
   try {
     const result = await sendToDiscord(
       process.env.DISCORD_TRANSPORT_WEBHOOK,
-      '🚛 جرد مسؤولية النقل - SQ9',
+      'جرد مسوؤل النقل | SQ9 📸',
       description,
       13936951,
       process.env.DISCORD_EMBED_IMAGE_URL || null
@@ -157,7 +157,7 @@ app.post('/api/reports/oversight', async (req, res) => {
   try {
     const result = await sendToDiscord(
       process.env.DISCORD_OVERSIGHT_WEBHOOK,
-      '🔍 جرد رقابة وتفتيش جديد - SQ9',
+      'جرد الرقابة والتفتيش | SQ9 🕵️‍♂️',
       description,
       OVERSIGHT_COLOR,
       process.env.DISCORD_OVERSIGHT_IMAGE_URL || process.env.DISCORD_EMBED_IMAGE_URL || null
