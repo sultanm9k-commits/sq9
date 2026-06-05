@@ -16,8 +16,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Helper: send rich embed to Discord Webhook
-async function sendToDiscord(webhookUrl, title, description, color = 13936951, imageUrl = null) {
+// Helper: send rich embed to Discord Webhook 
+async function sendToDiscord(webhookUrl, title, description, color = 13936951, imageUrl = null, files = []) {
   if (!webhookUrl) {
     console.warn(`[SERVER WARNING] Webhook URL not set for: "${title}". Logging:`, description);
     return { success: true, mocked: true };
@@ -39,23 +39,32 @@ async function sendToDiscord(webhookUrl, title, description, color = 13936951, i
     }]
   };
 
-  const response = await fetch(webhookUrl, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
+  const form = new FormData();
+  form.append('payload_json', JSON.stringify(payload));
+
+
+  files.forEach((file, index) => {
+    const fileExtension = path.extname(file.originalname) || '.png';
+    const customFileName = `الصورة ${index + 1}${fileExtension}`;
+    form.append(`files[${index}]`, file.buffer, customFileName);
   });
 
-  if (!response.ok) {
-    const err = await response.text();
-    throw new Error(`Discord error ${response.status}: ${err}`);
+  
+  const response = await axios.post(webhookUrl, form, {
+    headers: form.getHeaders()
+  });
+
+  if (response.status !== 200 && response.status !== 204) {
+    throw new Error(`Discord error ${response.status}: ${response.statusText}`);
   }
+  
   return { success: true };
 }
 
 // ─────────────────────────────────────────────────
 // Route 1: الجرد الإداري
 // ─────────────────────────────────────────────────
-app.post('/api/reports/admin', async (req, res) => {
+app.post('/api/reports/admin', upload.array('files', 5), async (req, res) => {
   const { userName, userRank, activationCount, problemSolvedCount } = req.body;
 
   if (!userName || !userRank) {
@@ -74,12 +83,10 @@ app.post('/api/reports/admin', async (req, res) => {
     `🎗️ **الرتبة :** ${userRank}`,
     ``,
     `✅ **تم حل مشكلة ؟ (العدد) :** ${probCount} حل مشكلة`,
-
     `🏅 **البوينتات ( الناتج ) :** ${probPoints} point (كل 50 = 1)`,
     ``,
     ``,
     `✅ **تم تفعيل (العدد) :** ${actCount} تفعيل`,
-
     `🏅 **البوينتات ( الناتج ) :** ${actPoints} point (كل 30 = 1)`,
     ``,
     ``,
@@ -92,10 +99,12 @@ app.post('/api/reports/admin', async (req, res) => {
       'جرد الادارة | SQ9 📨',
       description,
       13936951,
-      process.env.DISCORD_EMBED_IMAGE_URL || null
+      process.env.DISCORD_EMBED_IMAGE_URL || null,
+      req.files 
     );
     res.json({ success: true, message: 'تم إرسال الجرد الإداري بنجاح.', mocked: result.mocked });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: 'فشل إرسال الجرد، يرجى المحاولة لاحقاً.' });
   }
 });
@@ -103,7 +112,7 @@ app.post('/api/reports/admin', async (req, res) => {
 // ─────────────────────────────────────────────────
 // Route 2: جرد مسؤولية النقل
 // ─────────────────────────────────────────────────
-app.post('/api/reports/transport', async (req, res) => {
+app.post('/api/reports/transport', upload.array('files', 5), async (req, res) => {
   const { userName, userRank, transportReports, agreement } = req.body;
 
   if (!userName || !userRank || !agreement) {
@@ -119,7 +128,6 @@ app.post('/api/reports/transport', async (req, res) => {
     `🎗️ **الرتبة :** ${userRank}`,
     ``,
     `📷 **تقارير النقل (العدد) :** ${repCount} تقرير`,
-    
     `🏅 **البوينتات ( الناتج ) :** ${points} point (كل 30 = 1)`,
     ``,
     ``,
@@ -132,10 +140,12 @@ app.post('/api/reports/transport', async (req, res) => {
       'جرد مسوؤل النقل | SQ9 📸',
       description,
       13936951,
-      process.env.DISCORD_EMBED_IMAGE_URL || null
+      process.env.DISCORD_EMBED_IMAGE_URL || null,
+      req.files 
     );
     res.json({ success: true, message: 'تم إرسال جرد النقل بنجاح.', mocked: result.mocked });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: 'فشل إرسال الجرد، يرجى المحاولة لاحقاً.' });
   }
 });
@@ -143,7 +153,7 @@ app.post('/api/reports/transport', async (req, res) => {
 // ─────────────────────────────────────────────────
 // Route 3: جرد مسؤولية الدعم الفني
 // ─────────────────────────────────────────────────
-app.post('/api/reports/support', async (req, res) => {
+app.post('/api/reports/support', upload.array('files', 5), async (req, res) => {
   const { userName, userRank, supportReports, agreement } = req.body;
 
   if (!userName || !userRank || !agreement) {
@@ -159,7 +169,6 @@ app.post('/api/reports/support', async (req, res) => {
     `🎗️ **الرتبة :** ${userRank}`,
     ``,
     `📷 **🚫〢الانذارات・الادارية  :** ${repCount} محاسبة`,
-    
     `🏅 **البوينتات ( الناتج ) :** ${points} point (كل 30 = 1)`,
     ``,
     ``,
@@ -168,14 +177,16 @@ app.post('/api/reports/support', async (req, res) => {
 
   try {
     const result = await sendToDiscord(
-      process.env.DISCORD_TRANSPORT_WEBHOOK,
+      process.env.DISCORD_TRANSPORT_WEBHOOK, 
       'جرد مسوؤل الدعم الفني | SQ9 ⚠️',
       description,
       13936951,
-      process.env.DISCORD_EMBED_IMAGE_URL || null
+      process.env.DISCORD_EMBED_IMAGE_URL || null,
+      req.files 
     );
     res.json({ success: true, message: 'تم إرسال جرد الدعم بنجاح.', mocked: result.mocked });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: 'فشل إرسال الجرد، يرجى المحاولة لاحقاً.' });
   }
 });
@@ -183,14 +194,13 @@ app.post('/api/reports/support', async (req, res) => {
 // ─────────────────────────────────────────────────
 // Route 4: جرد الرقابة والتفتيش
 // ─────────────────────────────────────────────────
-app.post('/api/reports/oversight', async (req, res) => {
+app.post('/api/reports/oversight', upload.array('files', 5), async (req, res) => {
   const { userName, selectedRank, accountingCount } = req.body;
 
   if (!userName || !selectedRank) {
     return res.status(400).json({ error: 'يرجى ملء الحقول المطلوبة.' });
   }
 
-  // Dark red color: #8B0000 = 9109504
   const OVERSIGHT_COLOR = 9109504;
 
   const description = [
@@ -209,10 +219,12 @@ app.post('/api/reports/oversight', async (req, res) => {
       'جرد الرقابة والتفتيش | SQ9 🕵️‍♂️',
       description,
       OVERSIGHT_COLOR,
-      process.env.DISCORD_OVERSIGHT_IMAGE_URL || process.env.DISCORD_EMBED_IMAGE_URL || null
+      process.env.DISCORD_OVERSIGHT_IMAGE_URL || process.env.DISCORD_EMBED_IMAGE_URL || null,
+      req.files 
     );
     res.json({ success: true, message: 'تم إرسال جرد الرقابة والتفتيش بنجاح.', mocked: result.mocked });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: 'فشل إرسال الجرد، يرجى المحاولة لاحقاً.' });
   }
 });
