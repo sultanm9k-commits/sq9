@@ -45,7 +45,7 @@ async function sendToDiscord(webhookUrl, title, description, color = 13936951, i
 
   files.forEach((file, index) => {
     const fileExtension = path.extname(file.originalname) || '.png';
-    const customFileName = `الصورة ${index + 1}${fileExtension}`;
+    const customFileName = `image_${index + 1}${fileExtension}`;
     form.append(`files[${index}]`, file.buffer, customFileName);
   });
 

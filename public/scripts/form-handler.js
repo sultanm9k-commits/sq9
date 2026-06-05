@@ -93,18 +93,24 @@ document.addEventListener('DOMContentLoaded', () => {
         loader.style.display = isLoading ? 'block' : 'none';
     }
 
-    async function submitReport(endpoint, data, form) {
+    async function submitReport(endpoint, form) {
         setLoading(form, true);
         try {
+            const formData = new FormData(form); 
+
             const response = await fetch(endpoint, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
+                body: formData
             });
             const result = await response.json();
             if (!response.ok) throw new Error(result.error || 'حدث خطأ أثناء إرسال الجرد.');
             showSuccessPopup(result.mocked);
             form.reset();
+
+            if (typeof calculatePoints === 'function') calculatePoints();
+            if (typeof calculateTransportPoints === 'function') calculateTransportPoints();
+            if (typeof calculateSupportPoints === 'function') calculateSupportPoints();
+            
         } catch (error) {
             console.error('Submission error:', error);
             alert(`⚠️ فشل إرسال الجرد:\n${error.message}`);
@@ -156,15 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (adminForm) {
         adminForm.addEventListener('submit', e => {
             e.preventDefault();
-            const activationCount = parseInt(actInput.value) || 0;
-            const problemSolvedCount = parseInt(probInput.value) || 0;
-
-            submitReport('/api/reports/admin', {
-                userName:           document.getElementById('admin-userName').value,
-                userRank:           document.getElementById('admin-userRank').value,
-                activationCount:    activationCount,
-                problemSolvedCount: problemSolvedCount,
-            }, adminForm);
+            submitReport('/api/reports/admin', adminForm);
         });
     }
 
@@ -188,52 +186,39 @@ document.addEventListener('DOMContentLoaded', () => {
     if (transportForm) {
         transportForm.addEventListener('submit', e => {
             e.preventDefault();
-            submitReport('/api/reports/transport', {
-                userName:         document.getElementById('trans-userName').value,
-                userRank:         document.getElementById('trans-userRank').value,
-                transportReports: parseInt(transReportsInput.value) || 0,
-                agreement:        document.getElementById('trans-agreement').checked,
-            }, transportForm);
+            submitReport('/api/reports/transport', transportForm);
         });
     }
     
-    // ─── Form 2: جرد مسؤولية الدعم الفني ──────────────────────
-const supportForm = document.getElementById('supportReportForm');
-const supportReportsInput = document.getElementById('supp-reports'); 
-const supportPointsSpan = document.getElementById('points-support');
+    // ─── Form 3: جرد مسؤولية الدعم الفني ──────────────────────
+    const supportForm = document.getElementById('supportReportForm');
+    const supportReportsInput = document.getElementById('supp-reports'); 
+    const supportPointsSpan = document.getElementById('points-support');
 
-function calculateSupportPoints() {
-    if (!supportReportsInput) return;
-    const reports = parseInt(supportReportsInput.value) || 0;
-    const points = Math.floor(reports / 30);
-    if (supportPointsSpan) supportPointsSpan.textContent = `${points} point 🏅`;
-}
+    function calculateSupportPoints() {
+        if (!supportReportsInput) return;
+        const reports = parseInt(supportReportsInput.value) || 0;
+        const points = Math.floor(reports / 30);
+        if (supportPointsSpan) supportPointsSpan.textContent = `${points} point 🏅`;
+    }
 
-if (supportReportsInput) {
-    supportReportsInput.addEventListener('input', calculateSupportPoints);
-}
+    if (supportReportsInput) {
+        supportReportsInput.addEventListener('input', calculateSupportPoints);
+    }
 
-if (supportForm) {
-    supportForm.addEventListener('submit', e => {
-        e.preventDefault();
-        submitReport('/api/reports/support', {
-            userName: document.getElementById('supp-userName').value, 
-            userRank: document.getElementById('supp-userRank').value, 
-            supportReports: parseInt(supportReportsInput.value) || 0,
-            agreement: document.getElementById('trans-agreement').checked, 
-        }, supportForm);
-    });
-}
+    if (supportForm) {
+        supportForm.addEventListener('submit', e => {
+            e.preventDefault();
+            submitReport('/api/reports/support', supportForm);
+        });
+    }
+
     // ─── Form 4: جرد الرقابة والتفتيش ───────────────────
     const oversightForm = document.getElementById('oversightReportForm');
     if (oversightForm) {
         oversightForm.addEventListener('submit', e => {
             e.preventDefault();
-            submitReport('/api/reports/oversight', {
-                userName:        document.getElementById('over-userName').value,
-                selectedRank:    document.getElementById('over-selectedRank').value,
-                accountingCount: document.getElementById('over-accountingCount').value,
-            }, oversightForm);
+            submitReport('/api/reports/oversight', oversightForm);
         });
     }
 
