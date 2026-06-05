@@ -242,33 +242,54 @@ if (!document.getElementById('shake-style')) {
         const fileInput = form.querySelector('input[type="file"]');
         if (!fileInput) return;
 
+        let accumulatedFiles = [];
+
+        form.addEventListener('reset', () => {
+            accumulatedFiles = [];
+            setTimeout(() => {
+                const targetElement = Array.from(form.querySelectorAll('label, span, div, p'))
+                    .find(el => el.textContent.includes('إرفق الصور') || el.textContent.includes('تم اختيار') || el.textContent.includes('تم ارفاق') || el.textContent.includes('الحد الاقصى') || el.textContent.includes('فشل'));
+                if (targetElement) {
+                    targetElement.innerHTML = 'إرفق الصور هنا ( اجباري )';
+                }
+            }, 50);
+        });
+
         fileInput.addEventListener('change', function () {
             const targetElement = Array.from(form.querySelectorAll('label, span, div, p'))
                 .find(el => el.textContent.includes('إرفق الصور') || el.textContent.includes('تم اختيار') || el.textContent.includes('تم ارفاق') || el.textContent.includes('الحد الاقصى') || el.textContent.includes('فشل'));
 
             if (!targetElement) return;
 
-            const filesCount = this.files.length;
+            const newFiles = Array.from(this.files);
+            if (newFiles.length === 0) return;
 
-            if (filesCount > 5) {
+            if (accumulatedFiles.length + newFiles.length > 5) {
                 targetElement.innerHTML = 'فشل تحميل الصوره ( الحد الاقصى 5 صور )';
                 targetElement.classList.add('shake-error');
                 
-                const dt = new DataTransfer();
-                for (let i = 0; i < 5; i++) {
-                    dt.items.add(this.files[i]);
+                const availableSlots = 5 - accumulatedFiles.length;
+                if (availableSlots > 0) {
+                    accumulatedFiles = accumulatedFiles.concat(newFiles.slice(0, availableSlots));
                 }
+                
+                const dt = new DataTransfer();
+                accumulatedFiles.forEach(file => dt.items.add(file));
                 this.files = dt.files;
                 
                 setTimeout(() => {
                     targetElement.classList.remove('shake-error');
-                    targetElement.innerHTML = 'تم اختيار (5) صور';
+                    targetElement.innerHTML = `تم اختيار (${accumulatedFiles.length}) صور`;
                 }, 1500);
                 
-            } else if (filesCount > 0) {
-                targetElement.innerHTML = `تم اختيار (${filesCount}) صور`;
             } else {
-                targetElement.innerHTML = 'إرفق الصور هنا ( اجباري )';
+                accumulatedFiles = accumulatedFiles.concat(newFiles);
+                
+                const dt = new DataTransfer();
+                accumulatedFiles.forEach(file => dt.items.add(file));
+                this.files = dt.files;
+                
+                targetElement.innerHTML = `تم اختيار (${accumulatedFiles.length}) صور`;
             }
         });
     });
