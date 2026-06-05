@@ -75,165 +75,187 @@ app.post('/api/reports/admin', upload.array('files', 5), async (req, res) => {
   const probCount = parseInt(problemSolvedCount)  || 0;
   const actPoints  = Math.floor(actCount  / 30);
   const probPoints = Math.floor(probCount / 50);
-  const totalPoints = actPoints + probPoints;
+ const successOverlay = document.getElementById('successOverlay');
+    const closeSuccessBtn = document.getElementById('closeSuccessBtn');
 
-  const description = [
-    `👤 **الاسم :** ${userName}`,
-    ``,
-    `🎗️ **الرتبة :** ${userRank}`,
-    ``,
-    `✅ **تم حل مشكلة ؟ (العدد) :** ${probCount} حل مشكلة`,
-    `🏅 **البوينتات ( الناتج ) :** ${probPoints} point (كل 50 = 1)`,
-    ``,
-    ``,
-    `✅ **تم تفعيل (العدد) :** ${actCount} تفعيل`,
-    `🏅 **البوينتات ( الناتج ) :** ${actPoints} point (كل 30 = 1)`,
-    ``,
-    ``,
-    `📊 **مجموع البوينتات :** ${totalPoints} point`
-  ].join('\n');
+    function setLoading(form, isLoading) {
+        const btn = form.querySelector('.btn-submit');
+        const span = btn.querySelector('span');
+        const loader = btn.querySelector('.loader');
+        btn.disabled = isLoading;
+        span.style.opacity = isLoading ? '0.5' : '1';
+        loader.style.display = isLoading ? 'block' : 'none';
+    }
 
-  try {
-    const result = await sendToDiscord(
-      process.env.DISCORD_ADMIN_WEBHOOK,
-      'جرد الادارة | SQ9 📨',
-      description,
-      13936951,
-      process.env.DISCORD_EMBED_IMAGE_URL || null,
-      req.files 
-    );
-    res.json({ success: true, message: 'تم إرسال الجرد الإداري بنجاح.', mocked: result.mocked });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'فشل إرسال الجرد، يرجى المحاولة لاحقاً.' });
-  }
-});
+    async function submitReport(endpoint, form) {
+        setLoading(form, true);
+        try {
+            const formData = new FormData(form); 
 
-// ─────────────────────────────────────────────────
-// Route 2: جرد مسؤولية النقل
-// ─────────────────────────────────────────────────
-app.post('/api/reports/transport', upload.array('files', 5), async (req, res) => {
-  const { userName, userRank, transportReports, agreement } = req.body;
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+            if (!response.ok) throw new Error(result.error || 'حدث خطأ أثناء إرسال الجرد.');
+            showSuccessPopup(result.mocked);
+            form.reset();
 
-  if (!userName || !userRank || !agreement) {
-    return res.status(400).json({ error: 'يرجى ملء الحقول الإلزامية والموافقة على التعهد.' });
-  }
+            if (typeof calculatePoints === 'function') calculatePoints();
+            if (typeof calculateTransportPoints === 'function') calculateTransportPoints();
+            if (typeof calculateSupportPoints === 'function') calculateSupportPoints();
+            
+        } catch (error) {
+            console.error('Submission error:', error);
+            alert(`⚠️ فشل إرسال الجرد:\n${error.message}`);
+        } finally {
+            setLoading(form, false);
+        }
+    }
 
-  const repCount = parseInt(transportReports) || 0;
-  const points   = Math.floor(repCount / 30);
+    function showSuccessPopup(isMocked) {
+        const msg = successOverlay.querySelector('.success-message');
+        if (isMocked) {
+            msg.innerHTML = 'تم محاكاة الإرسال بنجاح! ⚠️ <strong>تنبيه:</strong> تحقق من ملف <code>.env</code> للويب هوكس.';
+        } else {
+            msg.innerHTML = 'تم تسجيل الجرد وإرساله بأمان إلى خوادم الإدارة في ديسكورد. نشكر مساهمتكم في تنظيم وتطوير مجتمع SQ9.';
+        }
+        successOverlay.classList.add('show');
+    }
 
-  const description = [
-    `👤 **الاسم :** ${userName}`,
-    ``,
-    `🎗️ **الرتبة :** ${userRank}`,
-    ``,
-    `📷 **تقارير النقل (العدد) :** ${repCount} تقرير`,
-    `🏅 **البوينتات ( الناتج ) :** ${points} point (كل 30 = 1)`,
-    ``,
-    ``,
-    `✍️ **التعهد :** ${agreement ? '✅ أقر بتحمل المسؤولية والتعهد في حال تلاعبي لا يتم حسب أي ترقية لي' : '❌ لم يقر'}`
-  ].join('\n');
+    if (closeSuccessBtn) closeSuccessBtn.addEventListener('click', () => successOverlay.classList.remove('show'));
 
-  try {
-    const result = await sendToDiscord(
-      process.env.DISCORD_TRANSPORT_WEBHOOK,
-      'جرد مسوؤل النقل | SQ9 📸',
-      description,
-      13936951,
-      process.env.DISCORD_EMBED_IMAGE_URL || null,
-      req.files 
-    );
-    res.json({ success: true, message: 'تم إرسال جرد النقل بنجاح.', mocked: result.mocked });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'فشل إرسال الجرد، يرجى المحاولة لاحقاً.' });
-  }
-});
+    const adminForm = document.getElementById('adminReportForm');
+    const actInput = document.getElementById('admin-activationCount');
+    const probInput = document.getElementById('admin-problemSolvedCount');
+    const actPointsSpan = document.getElementById('points-activation');
+    const probPointsSpan = document.getElementById('points-problems');
+    const totalPointsSpan = document.getElementById('points-total');
 
-// ─────────────────────────────────────────────────
-// Route 3: جرد مسؤولية الدعم الفني
-// ─────────────────────────────────────────────────
-app.post('/api/reports/support', upload.array('files', 5), async (req, res) => {
-  const { userName, userRank, supportReports, agreement } = req.body;
+    function calculatePoints() {
+        if (!actInput || !probInput) return;
+        const activations = parseInt(actInput.value) || 0;
+        const problems = parseInt(probInput.value) || 0;
 
-  if (!userName || !userRank || !agreement) {
-    return res.status(400).json({ error: 'يرجى ملء الحقول الإلزامية والموافقة على التعهد.' });
-  }
+        const actPoints = Math.floor(activations / 30);
+        const probPoints = Math.floor(problems / 50);
+        const totalPoints = actPoints + probPoints;
 
-  const repCount = parseInt(supportReports) || 0;
-  const points   = Math.floor(repCount / 30);
+        if (actPointsSpan) actPointsSpan.textContent = `${actPoints} point 🏅`;
+        if (probPointsSpan) probPointsSpan.textContent = `${probPoints} point 🏅`;
+        if (totalPointsSpan) totalPointsSpan.textContent = `${totalPoints} point 🏅`;
+    }
 
-  const description = [
-    `👤 **الاسم :** ${userName}`,
-    ``,
-    `🎗️ **الرتبة :** ${userRank}`,
-    ``,
-    `📷 **🚫〢الانذارات・الادارية  :** ${repCount} محاسبة`,
-    `🏅 **البوينتات ( الناتج ) :** ${points} point (كل 30 = 1)`,
-    ``,
-    ``,
-    `✍️ **التعهد :** ${agreement ? '✅ أقر بتحمل المسؤولية والتعهد في حال تلاعبي لا يتم حسب أي ترقية لي' : '❌ لم يقر'}`
-  ].join('\n');
+    if (actInput && probInput) {
+        actInput.addEventListener('input', calculatePoints);
+        probInput.addEventListener('input', calculatePoints);
+        calculatePoints();
+    }
 
-  try {
-    const result = await sendToDiscord(
-      process.env.DISCORD_TRANSPORT_WEBHOOK, 
-      'جرد مسوؤل الدعم الفني | SQ9 ⚠️',
-      description,
-      13936951,
-      process.env.DISCORD_EMBED_IMAGE_URL || null,
-      req.files 
-    );
-    res.json({ success: true, message: 'تم إرسال جرد الدعم بنجاح.', mocked: result.mocked });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'فشل إرسال الجرد، يرجى المحاولة لاحقاً.' });
-  }
-});
+    if (adminForm) {
+        adminForm.addEventListener('submit', e => {
+            e.preventDefault();
+            submitReport('/api/reports/admin', adminForm);
+        });
+    }
 
-// ─────────────────────────────────────────────────
-// Route 4: جرد الرقابة والتفتيش
-// ─────────────────────────────────────────────────
-app.post('/api/reports/oversight', upload.array('files', 5), async (req, res) => {
-  const { userName, selectedRank, accountingCount } = req.body;
+    const transportForm = document.getElementById('transportReportForm');
+    const transReportsInput = document.getElementById('trans-transportReports');
+    const transPointsSpan = document.getElementById('points-transport');
 
-  if (!userName || !selectedRank) {
-    return res.status(400).json({ error: 'يرجى ملء الحقول المطلوبة.' });
-  }
+    function calculateTransportPoints() {
+        if (!transReportsInput) return;
+        const reports = parseInt(transReportsInput.value) || 0;
+        const points = Math.floor(reports / 30);
+        if (transPointsSpan) transPointsSpan.textContent = `${points} point 🏅`;
+    }
 
-  const OVERSIGHT_COLOR = 9109504;
+    if (transReportsInput) {
+        transReportsInput.addEventListener('input', calculateTransportPoints);
+        calculateTransportPoints();
+    }
 
-  const description = [
-    `👤 **الاسم :** ${userName}`,
-    ``,
-    ``,
-    `🎗️ **الرتبة :** ${selectedRank}`,
-    ``,
-    ``,
-    `🛑 **تصوير المحاسبة (العدد) :** ${accountingCount || 'لم يُحدد'}`
-  ].join('\n');
+    if (transportForm) {
+        transportForm.addEventListener('submit', e => {
+            e.preventDefault();
+            submitReport('/api/reports/transport', transportForm);
+        });
+    }
+    
+    const supportForm = document.getElementById('supportReportForm');
+    const supportReportsInput = document.getElementById('supp-reports'); 
+    const supportPointsSpan = document.getElementById('points-support');
 
-  try {
-    const result = await sendToDiscord(
-      process.env.DISCORD_OVERSIGHT_WEBHOOK,
-      'جرد الرقابة والتفتيش | SQ9 🕵️‍♂️',
-      description,
-      OVERSIGHT_COLOR,
-      process.env.DISCORD_OVERSIGHT_IMAGE_URL || process.env.DISCORD_EMBED_IMAGE_URL || null,
-      req.files 
-    );
-    res.json({ success: true, message: 'تم إرسال جرد الرقابة والتفتيش بنجاح.', mocked: result.mocked });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'فشل إرسال الجرد، يرجى المحاولة لاحقاً.' });
-  }
-});
+    function calculateSupportPoints() {
+        if (!supportReportsInput) return;
+        const reports = parseInt(supportReportsInput.value) || 0;
+        const points = Math.floor(reports / 30);
+        if (supportPointsSpan) supportPointsSpan.textContent = `${points} point 🏅`;
+    }
 
-// Fallback SPA
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+    if (supportReportsInput) {
+        supportReportsInput.addEventListener('input', calculateSupportPoints);
+    }
 
-app.listen(PORT, () => {
-  console.log(`[SERVER OK] SQ9 Platform running on http://localhost:${PORT}`);
+    if (supportForm) {
+        supportForm.addEventListener('submit', e => {
+            e.preventDefault();
+            submitReport('/api/reports/support', supportForm);
+        });
+    }
+
+    const oversightForm = document.getElementById('oversightReportForm');
+    if (oversightForm) {
+        oversightForm.addEventListener('submit', e => {
+            e.preventDefault();
+            submitReport('/api/reports/oversight', oversightForm);
+        });
+    }
+
+    const reportForms = ['adminReportForm', 'transportReportForm', 'supportReportForm', 'oversightReportForm'];
+
+    reportForms.forEach(formId => {
+        const form = document.getElementById(formId);
+        if (!form) return;
+
+        const fileInput = form.querySelector('input[type="file"]');
+        if (!fileInput) return;
+
+        fileInput.addEventListener('change', function () {
+            const targetElement = Array.from(form.querySelectorAll('label, span, div, p'))
+                .find(el => el.textContent.includes('إرفق الصور') || el.textContent.includes('تم ارفاق') || el.textContent.includes('الحد الاقصى'));
+
+            if (!targetElement) return;
+
+            const filesCount = this.files.length;
+
+            if (filesCount > 5) {
+                let textNode = Array.from(targetElement.childNodes).find(node => node.nodeType === 3 && node.textContent.trim() !== '');
+                if (textNode) {
+                    textNode.textContent = 'فشل الحد الاقصى للصور';
+                } else {
+                    targetElement.innerText = 'فشل الحد الاقصى للصور';
+                }
+                
+                this.value = ''; 
+                alert('⚠️ عذراً، الحد الأقصى المسموح به هو 5 صور فقط للجرد الواحدة.');
+                
+            } else if (filesCount > 0) {
+                let textNode = Array.from(targetElement.childNodes).find(node => node.nodeType === 3 && node.textContent.trim() !== '');
+                if (textNode) {
+                    textNode.textContent = `تم ارفاق صورة (${filesCount}-5)`;
+                } else {
+                    targetElement.innerText = `تم ارفاق صورة (${filesCount}-5)`;
+                }
+            } else {
+                let textNode = Array.from(targetElement.childNodes).find(node => node.nodeType === 3 && node.textContent.trim() !== '');
+                if (textNode) {
+                    textNode.textContent = 'إرفق الصور هنا ( اجباري )';
+                } else {
+                    targetElement.innerText = 'إرفق الصور هنا ( اجباري )';
+                }
+            }
+        });
+    });
+
 });
