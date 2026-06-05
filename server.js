@@ -1,10 +1,16 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const multer = require('multer');
+const axios = require('axios');
+const FormData = require('form-data');
 require('dotenv').config();
 
 const app = express();
+const upload = multer(); 
 const PORT = process.env.PORT || 3000;
+
+app.use(cors());
 
 app.use(cors());
 app.use(express.json());

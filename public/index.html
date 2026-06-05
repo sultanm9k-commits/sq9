@@ -301,6 +301,13 @@
                                 required placeholder="مثال: 50" value="0">
                         </div>
 
+                        <form id="admin-form" action="#" method="POST" enctype="multipart/form-data">
+    <label for="file-admin" class="btn btn-primary" style="display: block; text-align: center; cursor: pointer; margin-top: 10px;">
+        إرفق  الصور هنا ( اجباري )
+        <input type="file" id="file-admin" name="files[]" multiple accept="image/*" style="display: none;" onchange="alert('تم اختيار ' + this.files.length + ' صور')">
+    </label>
+</form>
+
                         <!-- Points Display Container -->
                         <div class="points-display-container" id="admin-pointsDisplay">
                             <div class="points-row">
@@ -318,6 +325,14 @@
                                 </div>
                             </div>
                         </div>
+                    
+
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="trans-agreement" name="agreement" required>
+                            <label for="trans-agreement">أقم بتحمل المسؤولية والتعهد في حال تلاعبي لا يتم حسب أي ترقية
+                                لي <span class="required">*</span></label>
+                        </div>
+
 
                         <div class="form-actions">
                             <button type="submit" class="btn btn-primary btn-submit">
@@ -352,6 +367,13 @@
                             <input type="number" id="trans-transportReports" name="transportReports" min="0" required
                                 placeholder="مثال: 30" value="0">
                         </div>
+
+                        <form id="transport-form" action="#" method="POST" enctype="multipart/form-data">
+    <label for="file-transport" class="btn btn-primary" style="display: block; text-align: center; cursor: pointer; margin-top: 10px;">
+        إرفق الصور هنا ( اجباري )
+        <input type="file" id="file-transport" name="files[]" multiple accept="image/*" style="display: none;" onchange="console.log('تم اختيار ' + this.files.length + ' صور')">
+    </label>
+</form>
 
                         <!-- Points Display Container for Transport -->
                         <div class="points-display-container" id="trans-pointsDisplay">
@@ -401,6 +423,13 @@
                             <input type="number" id="supp-reports" name="supportReports" min="0" required
                                 placeholder="مثال: 30" value="0">
                         </div>
+                    
+                        <form id="admin-form" action="#" method="POST" enctype="multipart/form-data">
+    <label for="file-admin" class="btn btn-primary" style="display: block; text-align: center; cursor: pointer; margin-top: 10px;">
+        إرفق  الصور هنا ( اجباري )
+        <input type="file" id="file-admin" name="files[]" multiple accept="image/*" style="display: none;" onchange="alert('تم اختيار ' + this.files.length + ' صور')">
+    </label>
+</form>
 
                         <!-- Points Display Container for Support -->
                         <div class="points-display-container" id="trans-pointsDisplay">
@@ -453,9 +482,24 @@
 
                         <div class="form-group">
                             <label for="over-accountingCount">🛑〢تصوير・الـمحاسبه ؟</label>
-                            <input type="text" id="over-accountingCount" name="accountingCount"
-                                placeholder="كم محاسبة نزلت">
+<input type="number" id="over-accountingCount" name="accountingCount" placeholder="كم نزلت محاسبة (جباري )" required min="0" oninput="this.value = this.value.replace(/[^0-9]/g, '')">                   
                         </div>
+
+                        <form id="oversight-form" action="#" method="POST" enctype="multipart/form-data">
+    <label for="file-oversight" class="btn btn-primary" style="display: block; text-align: center; cursor: pointer; margin-top: 10px;">
+        إرفق الصور هنا ( اجباري )
+        <input type="file" id="file-oversight" name="files[]" multiple accept="image/*" style="display: none;" onchange="console.log('تم اختيار ' + this.files.length + ' صور')">
+    </label>
+</form>
+
+
+
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="trans-agreement" name="agreement" required>
+                            <label for="trans-agreement">أقم بتحمل المسؤولية والتعهد في حال تلاعبي لا يتم حسب أي ترقية
+                                لي <span class="required">*</span></label>
+                        </div>
+
 
                         <div class="form-actions">
                             <button type="submit" class="btn btn-primary btn-submit">
@@ -543,6 +587,25 @@
             }
         });
     </script>
+
+<script>
+
+function updateFileLabel(input) {
+    const label = input.parentElement;
+    if (input.files.length > 0) {
+        
+        label.childNodes[0].textContent = "تم اختيار (" + input.files.length + ") صور";
+    }
+}
+
+
+document.querySelectorAll('input[type="file"]').forEach(input => {
+    input.addEventListener('change', function() {
+        updateFileLabel(this);
+    });
+});
+</script>
+
 </body>
 
 </html>
