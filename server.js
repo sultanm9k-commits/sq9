@@ -242,8 +242,7 @@ if (!document.getElementById('shake-style')) {
         const fileInput = form.querySelector('input[type="file"]');
         if (!fileInput) return;
 
-        const targetElement = Array.from(form.querySelectorAll('label, span, div, p'))
-            .find(el => el.textContent.includes('إرفق الصور') || el.textContent.includes('تم اختيار') || el.textContent.includes('تم ارفاق'));
+        const targetElement = form.querySelector(`label[for="${fileInput.id}"]`) || fileInput.previousElementSibling;
 
         let accumulatedFiles = [];
 
