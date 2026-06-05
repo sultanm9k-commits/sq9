@@ -75,7 +75,28 @@ app.post('/api/reports/admin', upload.array('files', 5), async (req, res) => {
   const probCount = parseInt(problemSolvedCount)  || 0;
   const actPoints  = Math.floor(actCount  / 30);
   const probPoints = Math.floor(probCount / 50);
- const successOverlay = document.getElementById('successOverlay');
+if (!document.getElementById('shake-style')) {
+        const style = document.createElement('style');
+        style.id = 'shake-style';
+        style.innerHTML = `
+            @keyframes shake-button {
+                0%, 100% { transform: translateX(0); }
+                15%, 45%, 75% { transform: translateX(-10px); }
+                30%, 60%, 90% { transform: translateX(10px); }
+            }
+            .shake-error {
+                animation: shake-button 0.5s ease-in-out !important;
+                background-color: #d93838 !important;
+                color: #ffffff !important;
+                border-color: #d93838 !important;
+                box-shadow: 0 0 15px rgba(217, 56, 56, 0.6) !important;
+                transition: all 0.3s ease;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    const successOverlay = document.getElementById('successOverlay');
     const closeSuccessBtn = document.getElementById('closeSuccessBtn');
 
     function setLoading(form, isLoading) {
@@ -106,7 +127,7 @@ app.post('/api/reports/admin', upload.array('files', 5), async (req, res) => {
             if (typeof calculateSupportPoints === 'function') calculateSupportPoints();
             
         } catch (error) {
-            console.error('Submission error:', error);
+            console.error(error);
             alert(`⚠️ فشل إرسال الجرد:\n${error.message}`);
         } finally {
             setLoading(form, false);
@@ -223,37 +244,31 @@ app.post('/api/reports/admin', upload.array('files', 5), async (req, res) => {
 
         fileInput.addEventListener('change', function () {
             const targetElement = Array.from(form.querySelectorAll('label, span, div, p'))
-                .find(el => el.textContent.includes('إرفق الصور') || el.textContent.includes('تم ارفاق') || el.textContent.includes('الحد الاقصى'));
+                .find(el => el.textContent.includes('إرفق الصور') || el.textContent.includes('تم اختيار') || el.textContent.includes('تم ارفاق') || el.textContent.includes('الحد الاقصى') || el.textContent.includes('فشل'));
 
             if (!targetElement) return;
 
             const filesCount = this.files.length;
 
             if (filesCount > 5) {
-                let textNode = Array.from(targetElement.childNodes).find(node => node.nodeType === 3 && node.textContent.trim() !== '');
-                if (textNode) {
-                    textNode.textContent = 'فشل الحد الاقصى للصور';
-                } else {
-                    targetElement.innerText = 'فشل الحد الاقصى للصور';
-                }
+                targetElement.innerHTML = 'فشل تحميل الصوره ( الحد الاقصى 5 صور )';
+                targetElement.classList.add('shake-error');
                 
-                this.value = ''; 
-                alert('⚠️ عذراً، الحد الأقصى المسموح به هو 5 صور فقط للجرد الواحدة.');
+                const dt = new DataTransfer();
+                for (let i = 0; i < 5; i++) {
+                    dt.items.add(this.files[i]);
+                }
+                this.files = dt.files;
+                
+                setTimeout(() => {
+                    targetElement.classList.remove('shake-error');
+                    targetElement.innerHTML = 'تم اختيار (5) صور';
+                }, 1500);
                 
             } else if (filesCount > 0) {
-                let textNode = Array.from(targetElement.childNodes).find(node => node.nodeType === 3 && node.textContent.trim() !== '');
-                if (textNode) {
-                    textNode.textContent = `تم ارفاق صورة (${filesCount}-5)`;
-                } else {
-                    targetElement.innerText = `تم ارفاق صورة (${filesCount}-5)`;
-                }
+                targetElement.innerHTML = `تم اختيار (${filesCount}) صور`;
             } else {
-                let textNode = Array.from(targetElement.childNodes).find(node => node.nodeType === 3 && node.textContent.trim() !== '');
-                if (textNode) {
-                    textNode.textContent = 'إرفق الصور هنا ( اجباري )';
-                } else {
-                    targetElement.innerText = 'إرفق الصور هنا ( اجباري )';
-                }
+                targetElement.innerHTML = 'إرفق الصور هنا ( اجباري )';
             }
         });
     });
