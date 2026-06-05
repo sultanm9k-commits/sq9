@@ -242,13 +242,14 @@ if (!document.getElementById('shake-style')) {
         const fileInput = form.querySelector('input[type="file"]');
         if (!fileInput) return;
 
+        const targetElement = Array.from(form.querySelectorAll('label, span, div, p'))
+            .find(el => el.textContent.includes('إرفق الصور') || el.textContent.includes('تم اختيار') || el.textContent.includes('تم ارفاق'));
+
         let accumulatedFiles = [];
 
         form.addEventListener('reset', () => {
             accumulatedFiles = [];
             setTimeout(() => {
-                const targetElement = Array.from(form.querySelectorAll('label, span, div, p'))
-                    .find(el => el.textContent.includes('إرفق الصور') || el.textContent.includes('تم اختيار') || el.textContent.includes('تم ارفاق') || el.textContent.includes('الحد الاقصى') || el.textContent.includes('فشل'));
                 if (targetElement) {
                     targetElement.innerHTML = 'إرفق الصور هنا ( اجباري )';
                 }
@@ -256,9 +257,6 @@ if (!document.getElementById('shake-style')) {
         });
 
         fileInput.addEventListener('change', function () {
-            const targetElement = Array.from(form.querySelectorAll('label, span, div, p'))
-                .find(el => el.textContent.includes('إرفق الصور') || el.textContent.includes('تم اختيار') || el.textContent.includes('تم ارفاق') || el.textContent.includes('الحد الاقصى') || el.textContent.includes('فشل'));
-
             if (!targetElement) return;
 
             const newFiles = Array.from(this.files);
@@ -267,15 +265,6 @@ if (!document.getElementById('shake-style')) {
             if (accumulatedFiles.length + newFiles.length > 5) {
                 targetElement.innerHTML = 'فشل تحميل الصوره ( الحد الاقصى 5 صور )';
                 targetElement.classList.add('shake-error');
-                
-                const availableSlots = 5 - accumulatedFiles.length;
-                if (availableSlots > 0) {
-                    accumulatedFiles = accumulatedFiles.concat(newFiles.slice(0, availableSlots));
-                }
-                
-                const dt = new DataTransfer();
-                accumulatedFiles.forEach(file => dt.items.add(file));
-                this.files = dt.files;
                 
                 setTimeout(() => {
                     targetElement.classList.remove('shake-error');
