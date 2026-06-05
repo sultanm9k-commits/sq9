@@ -196,8 +196,35 @@ document.addEventListener('DOMContentLoaded', () => {
             }, transportForm);
         });
     }
+    
+    // ─── Form 2: جرد مسؤولية الدعم الفني ──────────────────────
+const supportForm = document.getElementById('supportReportForm');
+const supportReportsInput = document.getElementById('supp-reports'); 
+const supportPointsSpan = document.getElementById('points-support');
 
-    // ─── Form 3: جرد الرقابة والتفتيش ───────────────────
+function calculateSupportPoints() {
+    if (!supportReportsInput) return;
+    const reports = parseInt(supportReportsInput.value) || 0;
+    const points = Math.floor(reports / 30);
+    if (supportPointsSpan) supportPointsSpan.textContent = `${points} point 🏅`;
+}
+
+if (supportReportsInput) {
+    supportReportsInput.addEventListener('input', calculateSupportPoints);
+}
+
+if (supportForm) {
+    supportForm.addEventListener('submit', e => {
+        e.preventDefault();
+        submitReport('/api/reports/support', {
+            userName: document.getElementById('supp-userName').value, 
+            userRank: document.getElementById('supp-userRank').value, 
+            supportReports: parseInt(supportReportsInput.value) || 0,
+            agreement: document.getElementById('trans-agreement').checked, 
+        }, supportForm);
+    });
+}
+    // ─── Form 4: جرد الرقابة والتفتيش ───────────────────
     const oversightForm = document.getElementById('oversightReportForm');
     if (oversightForm) {
         oversightForm.addEventListener('submit', e => {

@@ -225,7 +225,7 @@
                     <span class="card-action">تعبئة الجرد ←</span>
                 </div>
                  <!-- Card 3: Support -->
-                <div class="report-card" id="card-support" data-form="Support">
+                <div class="report-card" id="card-support" data-form="support-form-container">
                     <div class="card-icon-wrapper">
                         <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -260,8 +260,7 @@
                         النقل</button>
                     <button class="tab-btn" id="tab-oversight" data-target="oversight-form-container">جرد الرقابة
                         والتفتيش</button>
-                    <button class="tab-btn" id="tab-Support" data-target="Support-form-container">جرد مسوؤلين
-                       الدعم الفني </button>
+                 <button class="tab-btn" id="tab-support" data-target="support-form-container">جرد مسوؤلين الدعم الفني</button>
                 </div>
 
                 <!-- ════════ Form 1: الجرد الإداري ════════ -->
@@ -379,7 +378,7 @@
                     </form>
                 </div>
 <!-- ════════ Form 3: جرد مسؤولين الدعم ════════ -->
-                <div class="form-container" id="Support" style="display:none;">
+                <div class="form-container" id="support-form-container" style="display:none;">
                     <div class="form-header">
                         <h3>نموذج التقديم: جرد مسؤولية الدعم</h3>
                         <p>خاص بمسؤولي الدعم ومنسوبيها فقط.</p>
@@ -388,18 +387,18 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="trans-userName">اسمك <span class="required">*</span></label>
-                                <input type="text" id="trans-userName" name="userName" required placeholder="الاسم">
+                                <input type="text" id="supp-userName" name="userName" required placeholder="الاسم">
                             </div>
                             <div class="form-group">
                                 <label for="trans-userRank">رتبتك <span class="required">*</span></label>
-                                <input type="text" id="trans-userRank" name="userRank" required placeholder="الرتبة">
+                                <input type="text" id="supp-userRank" name="userRank" required placeholder="الرتبة">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="trans-supportReports">🚫〢الانذارات・الادارية <span class="required">*</span></label>
                             <p class="radio-desc" style="color: var(--text-secondary); opacity: 0.8;">يرجى إدخال عدد المحاسبات (كل 30 محاسبة ادارية 🚫 = 1 بوينت 🏅)</p>
-                            <input type="number" id="trans-supportReports" name="supportReports" min="0" required
+                            <input type="number" id="supp-reports" name="supportReports" min="0" required
                                 placeholder="مثال: 30" value="0">
                         </div>
 
@@ -414,7 +413,7 @@
                         </div>
 
                         <div class="form-group checkbox-group">
-                            <input type="checkbox" id="trans-agreement" name="agreement" required>
+                            <input type="checkbox" id="supp-agreement" name="agreement" required>
                             <label for="trans-agreement">أقم بتحمل المسؤولية والتعهد في حال تلاعبي لا يتم حسب أي بوينت او ترقية
                                 لي <span class="required">*</span></label>
                         </div>
