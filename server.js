@@ -242,20 +242,26 @@ if (!document.getElementById('shake-style')) {
         const fileInput = form.querySelector('input[type="file"]');
         if (!fileInput) return;
 
-        const targetElement = form.querySelector(`label[for="${fileInput.id}"]`) || fileInput.previousElementSibling;
-
         let accumulatedFiles = [];
+
+        function getTargetElement() {
+            return Array.from(form.querySelectorAll('label, span, div, p, button'))
+                .find(el => {
+                    const txt = el.textContent || '';
+                    return txt.includes('إرفق') || txt.includes('اختيار') || txt.includes('الحد الاقصى') || txt.includes('ارفاق');
+                });
+        }
 
         form.addEventListener('reset', () => {
             accumulatedFiles = [];
             setTimeout(() => {
-                if (targetElement) {
-                    targetElement.innerHTML = 'إرفق الصور هنا ( اجباري )';
-                }
+                const target = getTargetElement();
+                if (target) target.innerHTML = 'إرفق الصور هنا ( اجباري )';
             }, 50);
         });
 
         fileInput.addEventListener('change', function () {
+            const targetElement = getTargetElement();
             if (!targetElement) return;
 
             const newFiles = Array.from(this.files);
