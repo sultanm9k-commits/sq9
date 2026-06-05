@@ -135,7 +135,47 @@ app.post('/api/reports/transport', async (req, res) => {
 });
 
 // ─────────────────────────────────────────────────
-// Route 3: جرد الرقابة والتفتيش
+// Route 3: جرد مسؤولية الدعم الفني
+// ─────────────────────────────────────────────────
+app.post('/api/reports/support', async (req, res) => {
+  const { userName, userRank, supportReports, agreement } = req.body;
+
+  if (!userName || !userRank || !agreement) {
+    return res.status(400).json({ error: 'يرجى ملء الحقول الإلزامية والموافقة على التعهد.' });
+  }
+
+  const repCount = parseInt(supportReports) || 0;
+  const points   = Math.floor(repCount / 30);
+
+  const description = [
+    `👤 **الاسم :** ${userName}`,
+    ``,
+    `🎗️ **الرتبة :** ${userRank}`,
+    ``,
+    `📷 **🚫〢الانذارات・الادارية  :** ${repCount} محاسبة`,
+    
+    `🏅 **البوينتات ( الناتج ) :** ${points} point (كل 30 = 1)`,
+    ``,
+    ``,
+    `✍️ **التعهد :** ${agreement ? '✅ أقر بتحمل المسؤولية والتعهد في حال تلاعبي لا يتم حسب أي ترقية لي' : '❌ لم يقر'}`
+  ].join('\n');
+
+  try {
+    const result = await sendToDiscord(
+      process.env.DISCORD_TRANSPORT_WEBHOOK,
+      'جرد مسوؤل الدعم الفني | SQ9 ⚠️',
+      description,
+      13936951,
+      process.env.DISCORD_EMBED_IMAGE_URL || null
+    );
+    res.json({ success: true, message: 'تم إرسال جرد الدعم بنجاح.', mocked: result.mocked });
+  } catch (err) {
+    res.status(500).json({ error: 'فشل إرسال الجرد، يرجى المحاولة لاحقاً.' });
+  }
+});
+
+// ─────────────────────────────────────────────────
+// Route 4: جرد الرقابة والتفتيش
 // ─────────────────────────────────────────────────
 app.post('/api/reports/oversight', async (req, res) => {
   const { userName, selectedRank, accountingCount } = req.body;
