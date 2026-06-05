@@ -1252,4 +1252,6 @@ select#over-selectedRank:focus {
     }
 }
 
-
+#card-oversight {
+    grid-column: 2;
+}
