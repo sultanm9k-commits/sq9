@@ -301,12 +301,12 @@
                                 required placeholder="مثال: 50" value="0">
                         </div>
 
-                        <form id="admin-form" action="#" method="POST" enctype="multipart/form-data">
+                        < id="admin-form" action="#" method="POST" enctype="multipart/form-data">
     <label for="file-admin" class="btn btn-primary" style="display: block; text-align: center; cursor: pointer; margin-top: 10px;">
         إرفق  الصور هنا ( اجباري )
-        <input type="file" id="file-admin" name="files[]" multiple accept="image/*" style="display: none;" onchange="alert('تم اختيار ' + this.files.length + ' صور')">
+        <input type="file" id="file-admin" name="files" multiple accept="image/*" style="display: none;" onchange="alert('تم اختيار ' + this.files.length + ' صور')">
     </label>
-</form>
+
 
                         <!-- Points Display Container -->
                         <div class="points-display-container" id="admin-pointsDisplay">
@@ -368,12 +368,11 @@
                                 placeholder="مثال: 30" value="0">
                         </div>
 
-                        <form id="transport-form" action="#" method="POST" enctype="multipart/form-data">
+                        < id="transport-form" action="#" method="POST" enctype="multipart/form-data">
     <label for="file-transport" class="btn btn-primary" style="display: block; text-align: center; cursor: pointer; margin-top: 10px;">
         إرفق الصور هنا ( اجباري )
         <input type="file" id="file-transport" name="files[]" multiple accept="image/*" style="display: none;" onchange="console.log('تم اختيار ' + this.files.length + ' صور')">
     </label>
-</form>
 
                         <!-- Points Display Container for Transport -->
                         <div class="points-display-container" id="trans-pointsDisplay">
@@ -424,38 +423,38 @@
                                 placeholder="مثال: 30" value="0">
                         </div>
                     
-                        <form id="admin-form" action="#" method="POST" enctype="multipart/form-data">
-    <label for="file-admin" class="btn btn-primary" style="display: block; text-align: center; cursor: pointer; margin-top: 10px;">
-        إرفق  الصور هنا ( اجباري )
-        <input type="file" id="file-admin" name="files[]" multiple accept="image/*" style="display: none;" onchange="alert('تم اختيار ' + this.files.length + ' صور')">
-    </label>
-</form>
+                            <form id="admin-form" action="/api/reports/admin" method="POST" enctype="multipart/form-data">
+        <label for="file-admin" class="btn btn-primary" style="display: block; text-align: center; cursor: pointer; margin-top: 10px;">
+            إرفق  الصور هنا ( اجباري )
+            <input type="file" id="file-admin" name="files" multiple accept="image/*" style="display: none;" onchange="alert('تم اختيار ' + this.files.length + ' صور')">
+        </label>
 
-                        <!-- Points Display Container for Support -->
-                        <div class="points-display-container" id="trans-pointsDisplay">
-                            <div class="points-row" style="grid-template-columns: 1fr;">
-                                <div class="points-card total-points">
-                                    <span class="points-label">مجموع بوينتات جرد مسوؤلين الدعم </span>
-                                    <span class="points-value" id="points-support">0 point 🏅</span>
+
+                            <!-- Points Display Container for Support -->
+                            <div class="points-display-container" id="trans-pointsDisplay">
+                                <div class="points-row" style="grid-template-columns: 1fr;">
+                                    <div class="points-card total-points">
+                                        <span class="points-label">مجموع بوينتات جرد مسوؤلين الدعم </span>
+                                        <span class="points-value" id="points-support">0 point 🏅</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="form-group checkbox-group">
-                            <input type="checkbox" id="supp-agreement" name="agreement" required>
-                            <label for="trans-agreement">أقم بتحمل المسؤولية والتعهد في حال تلاعبي لا يتم حسب أي بوينت او ترقية
-                                لي <span class="required">*</span></label>
-                        </div>
+                            <div class="form-group checkbox-group">
+                                <input type="checkbox" id="supp-agreement" name="agreement" required>
+                                <label for="trans-agreement">أقم بتحمل المسؤولية والتعهد في حال تلاعبي لا يتم حسب أي بوينت او ترقية
+                                    لي <span class="required">*</span></label>
+                            </div>
 
-                        <div class="form-actions">
-                            <button type="submit" class="btn btn-primary btn-submit">
-                                <span>إرسال جرد الدعم</span>
-                                <div class="loader" style="display:none;"></div>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary btn-submit">
+                                    <span>إرسال جرد الدعم</span>
+                                    <div class="loader" style="display:none;"></div>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+    
                 <!-- ════════ Form 4: جرد الرقابة والتفتيش ════════ -->
                 <div class="form-container" id="oversight-form-container" style="display:none;">
                     <div class="form-header">
@@ -490,7 +489,7 @@
         إرفق الصور هنا ( اجباري )
         <input type="file" id="file-oversight" name="files[]" multiple accept="image/*" style="display: none;" onchange="console.log('تم اختيار ' + this.files.length + ' صور')">
     </label>
-</form>
+
 
 
 
@@ -605,7 +604,6 @@ document.querySelectorAll('input[type="file"]').forEach(input => {
     });
 });
 </script>
-
 </body>
 
 </html>
